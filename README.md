@@ -18,11 +18,11 @@ A Docker container that acts as a reverse proxy with HTTPS support, configured v
 ```bash
 docker run -d \\
   --name nginx-proxy \\
-  -p 80:80 \\
-  -p 443:443 \\
+  -p 5443:443 \\
   -e BACKEND\_URL=http://your-backend:8080 \\
   -e SSL\_CERT\_PATH=/etc/nginx/ssl/cert.crt \\
   -e SSL\_KEY\_PATH=/etc/nginx/ssl/key.key \\
+  -e PUBLIC_PORT=5443 \\
   -v /path/to/cert.crt:/etc/nginx/ssl/cert.crt:ro \\
   -v /path/to/key.key:/etc/nginx/ssl/key.key:ro \\
-  ghcr.io/your-username/nginx-reverse-proxy:latest
+  ghcr.io/waveinch/nginx-reverse-proxy:latest

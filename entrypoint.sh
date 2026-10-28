@@ -12,6 +12,11 @@ if [ -z "$SSL_CERT_PATH" ]; then
     exit 1
 fi
 
+if [ -z "$PUBLIC_PORT" ]; then
+    echo "ERROR: PUBLIC_PORT environment variable is not set"
+    exit 1
+fi
+
 if [ -z "$SSL_KEY_PATH" ]; then
     echo "ERROR: SSL_KEY_PATH environment variable is not set (default: /etc/nginx/ssl/key.key)"
     SSL_KEY_PATH="/etc/nginx/ssl/key.key"
@@ -30,7 +35,7 @@ if [ ! -f "$SSL_KEY_PATH" ]; then
 fi
 
 # Substitute environment variables in the nginx config template
-envsubst '${BACKEND_URL},${SSL_CERT_PATH},${SSL_KEY_PATH}' \
+envsubst '${BACKEND_URL},${SSL_CERT_PATH},${SSL_KEY_PATH},${PUBLIC_PORT}' \
     < /etc/nginx/nginx.conf.template \
     > /etc/nginx/nginx.conf
 
@@ -38,6 +43,7 @@ echo "Nginx configuration generated successfully"
 echo "Backend URL: $BACKEND_URL"
 echo "SSL Certificate: $SSL_CERT_PATH"
 echo "SSL Key: $SSL_KEY_PATH"
+echo "Public port: $PUBLIC_PORT"
 
 # Execute the main command
 exec "$@"
